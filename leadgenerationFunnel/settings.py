@@ -69,25 +69,29 @@ TEMPLATES = [
 WSGI_APPLICATION = 'leadgenerationFunnel.wsgi.application'
 
 # Database
-
-
-
-if DEBUG:
-    # Local development database
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    # Production Render PostgreSQL
-
-    DATABASES = {
+DATABASES = {
         'default': dj_database_url.config(
             default=env('DATABASE_URL')  # Render se milega
         )
     }
+
+
+# if DEBUG:
+#     # Local development database
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
+# else:
+#     # Production Render PostgreSQL
+
+#     DATABASES = {
+#         'default': dj_database_url.config(
+#             default=env('DATABASE_URL')  # Render se milega
+#         )
+#     }
 
 
 
