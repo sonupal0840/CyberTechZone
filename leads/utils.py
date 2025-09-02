@@ -47,6 +47,56 @@ def upload_video_get_media_id(file_path):
 # ----------------------------------------
 # ✅ Send WhatsApp (Old template - video)
 # ----------------------------------------
+# def send_whatsapp(phone_number, media_id=None, name_param=None, template_type='initial'):
+#     url = f"https://graph.facebook.com/v19.0/{settings.META_PHONE_NUMBER_ID}/messages"
+#     headers = {
+#         "Authorization": f"Bearer {settings.META_ACCESS_TOKEN}",
+#         "Content-Type": "application/json"
+#     }
+
+#     template_data = {
+#         "name": "confirmation_video",
+#         "language": {"code": "en_US"},
+#         "components": []
+#     }
+
+#     if media_id:
+#         template_data["components"].append({
+#             "type": "header",
+#             "parameters": [{
+#                 "type": "video",
+#                 "video": {"id": media_id}
+#             }]
+#         })
+
+#     name_text = name_param or "User"
+#     template_data["components"].append({
+#         "type": "body",
+#         "parameters": [{"type": "text", "text": name_text}]
+#     })
+
+#     payload = {
+#         "messaging_product": "whatsapp",
+#         "to": phone_number,
+#         "type": "template",
+#         "template": template_data
+#     }
+
+#     try:
+#         response = requests.post(url, headers=headers, data=json.dumps(payload))
+#         status = "sent" if response.status_code == 200 else "failed"
+#         logger.info(f"✅ WhatsApp to {phone_number}: {response.status_code} {response.text}")
+#     except Exception as e:
+#         status = "failed"
+#         logger.error(f"❌ WhatsApp Error: {str(e)}")
+
+#     MessageLog.objects.create(
+#         phone=phone_number,
+#         name=name_param or "User",
+#         template_type=template_type,
+#         status=status
+#     )
+    
 def send_whatsapp(phone_number, media_id=None, name_param=None, template_type='initial'):
     url = f"https://graph.facebook.com/v19.0/{settings.META_PHONE_NUMBER_ID}/messages"
     headers = {
@@ -54,38 +104,60 @@ def send_whatsapp(phone_number, media_id=None, name_param=None, template_type='i
         "Content-Type": "application/json"
     }
 
-    template_data = {
-        "name": "confirmation_video",
-        "language": {"code": "en_US"},
-        "components": []
-    }
+    payload = {}
 
-    if media_id:
+    if template_type == "initial":
+        # पहला message = template + video
+        template_data = {
+            "name": "confirmation_video",
+            "language": {"code": "en_US"},
+            "components": []
+        }
+        if media_id:
+            template_data["components"].append({
+                "type": "header",
+                "parameters": [{"type": "video", "video": {"id": media_id}}]
+            })
         template_data["components"].append({
-            "type": "header",
-            "parameters": [{
-                "type": "video",
-                "video": {"id": media_id}
-            }]
+            "type": "body",
+            "parameters": [{"type": "text", "text": name_param or "User"}]
         })
 
-    name_text = name_param or "User"
-    template_data["components"].append({
-        "type": "body",
-        "parameters": [{"type": "text", "text": name_text}]
-    })
+        payload = {
+            "messaging_product": "whatsapp",
+            "to": phone_number,
+            "type": "template",
+            "template": template_data
+        }
 
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": phone_number,
-        "type": "template",
-        "template": template_data
-    }
+    elif template_type == "followup1":
+        # दूसरा message = वही video + नया text (session message)
+        payload = {
+            "messaging_product": "whatsapp",
+            "to": phone_number,
+            "type": "video",
+            "video": {
+                "id": media_id,
+                "caption": f"Hey {name_param}, ⚠️ Urgent Update : To buy the full course visit my instagram channel ➡️  https://www.instagram.com/cyberhead._?igsh=cjBvOXNvamFyeXV6"
+            }
+        }
+
+    elif template_type == "followup2":
+        # तीसरा message = नया text + एक image (session message)
+        payload = {
+            "messaging_product": "whatsapp",
+            "to": phone_number,
+            "type": "video",
+            "video": {
+                "id": media_id,
+                "caption": f"Hey {name_param}, 🎉 Congratulations subsidy form was active so I have filled it on my student behalf,"
+            }
+        }
 
     try:
         response = requests.post(url, headers=headers, data=json.dumps(payload))
         status = "sent" if response.status_code == 200 else "failed"
-        logger.info(f"✅ WhatsApp to {phone_number}: {response.status_code} {response.text}")
+        logger.info(f"✅ WhatsApp to {phone_number} ({template_type}): {response.status_code} {response.text}")
     except Exception as e:
         status = "failed"
         logger.error(f"❌ WhatsApp Error: {str(e)}")
@@ -151,3 +223,4 @@ def send_bulk_whatsapp_utility(numbers, message):
             logger.info(f"[UTILITY] ✉️ Message to {number}: {res.status_code} {res.text}")
         except Exception as e:
             logger.error(f"[UTILITY] ❌ Failed to send to {number}: {str(e)}")
+            
