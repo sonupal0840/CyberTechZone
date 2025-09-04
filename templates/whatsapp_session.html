@@ -34,7 +34,7 @@
         <th>#</th>
         <th>Phone Number</th>
         <th>Last Message At</th>
-        <th>template type</th>
+
       </tr>
     </thead>
     <tbody>
@@ -43,7 +43,7 @@
           <td>{{ forloop.counter }}</td>
           <td>{{ session.phone }}</td>
           <td>{{ session.last_message_at|date:"Y-m-d H:i:s" }}</td>
-          <td>{{ session.template type}}</td>
+      
         </tr>
       {% empty %}
         <tr>
