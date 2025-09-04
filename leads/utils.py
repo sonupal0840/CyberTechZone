@@ -289,12 +289,12 @@ def handle_first_time_message(phone_number, name="User"):
 # ----------------------------------------
 def schedule_followups(phone_number, name, media_id):
     try:
-        Timer(900, send_whatsapp, args=[phone_number], kwargs={
+        Timer(90, send_whatsapp, args=[phone_number], kwargs={
             "media_id": media_id, "name_param": name, "template_type": "followup1"
         }).start()
         logger.info(f"🕒 15-min follow-up scheduled for {phone_number}")
 
-        Timer(3600, send_whatsapp, args=[phone_number], kwargs={
+        Timer(360, send_whatsapp, args=[phone_number], kwargs={
             "media_id": media_id, "name_param": name, "template_type": "followup2"
         }).start()
         logger.info(f"🕒 1-hour follow-up scheduled for {phone_number}")
