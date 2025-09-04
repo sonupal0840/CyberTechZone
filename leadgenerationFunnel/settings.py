@@ -69,10 +69,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'leadgenerationFunnel.wsgi.application'
 
 # Database
+# DATABASES = {
+#         'default': dj_database_url.config(
+#             default=env('DATABASE_URL')  # Render se milega
+#         )
+#     }
+
 DATABASES = {
-        'default': dj_database_url.config(
-            default=env('DATABASE_URL')  # Render se milega
-        )
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 
 
