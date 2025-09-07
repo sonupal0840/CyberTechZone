@@ -172,3 +172,6 @@ META_WABA_ID = env('META_WABA_ID')
 
 META_VERIFY_TOKEN = env('META_VERIFY_TOKEN')
 
+MEDIA_ID = env('media_id')
+
+

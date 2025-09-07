@@ -37,7 +37,7 @@ def lead_create_view(request):
             lead.save()
 
             video_path = os.path.join(settings.BASE_DIR, 'static', 'media', 'whatsapp_ready.mp4')
-            media_id = upload_video_get_media_id(video_path)
+            media_id = settings.MEDIA_ID #upload_video_get_media_id(video_path)
             logger.info(f"Phone: {lead.phone}, Media ID: {media_id}")
 
             if lead.phone and media_id:
