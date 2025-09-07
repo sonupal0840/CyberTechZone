@@ -10,6 +10,7 @@ from datetime import timedelta
 from .models import WhatsAppSession, MessageLog
 
 logger = logging.getLogger(__name__)
+media_id = settings.MEDIA_ID
 
 # ----------------------------------------
 # ✅ Video Upload Utility (Old Flow)
@@ -88,7 +89,7 @@ def send_whatsapp(phone_number, media_id=None, name_param=None, template_type='i
         if media_id:
             template_data["components"].append({
                 "type": "header",
-                "parameters": [{"type": "video", "video": {"id": 1903979883516130}}]
+                "parameters": [{"type": "video", "video": {"id": media_id}}]
             })
         template_data["components"].append({
             "type": "body",
@@ -152,13 +153,12 @@ def send_whatsapp(phone_number, media_id=None, name_param=None, template_type='i
 def handle_first_time_message(phone_number, name="User"):
     session, created = WhatsAppSession.objects.get_or_create(phone=phone_number)
 
-    # Send only if new session or 24h passed
     if created or now() - session.last_message_at > timedelta(hours=24):
-        # Use MEDIA_ID from settings
-        video_media_id = settings.MEDIA_ID
-        if phone_number and video_media_id:
-            send_whatsapp(phone_number, media_id=video_media_id, name_param=name, template_type='initial')
-            schedule_followups(phone_number, name)
+        video_path = os.path.join(settings.BASE_DIR, 'static', 'media', 'whatsapp_ready.mp4')
+        media_id = settings.MEDIA_ID
+        if phone_number and media_id:
+            send_whatsapp(phone_number, media_id=media_id, name_param=name, template_type='initial')
+            schedule_followups(phone_number, name, media_id)
 
     session.last_message_at = now()
     session.save()
@@ -168,7 +168,7 @@ def handle_first_time_message(phone_number, name="User"):
 # ----------------------------------------
 def schedule_followups(phone_number, name, media_id):
     try:
-        Timer(90, send_whatsapp, args=[phone_number], kwargs={
+        Timer(60, send_whatsapp, args=[phone_number], kwargs={
             "media_id": media_id, "name_param": name, "template_type": "followup1"
         }).start()
         logger.info(f"🕒 15-min follow-up scheduled for {phone_number}")
