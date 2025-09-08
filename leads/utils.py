@@ -124,7 +124,12 @@ def send_whatsapp(phone_number, media_id=None, name_param=None, template_type='i
                 "type": "image",
                 "image": {
                     "id": img_media_id,
-                    "caption": f"Hey {name_param}, 🎉 Congratulations subsidy form was active so I have filled it on my student behalf"
+                    "caption": (
+                        f"Hey {name_param},\n\n"
+                                "🎉🎉 Congratulations, Subsidy form is getting closed now, "
+                                "so I had filled it on your behalf.\n\n"
+                                "Act accordingly, if you receive a verification call."
+                            )
                 }
             }
         else:
