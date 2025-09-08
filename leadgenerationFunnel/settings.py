@@ -69,18 +69,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'leadgenerationFunnel.wsgi.application'
 
 # Database
-DATABASES = {
-        'default': dj_database_url.config(
-            default=env('DATABASE_URL')  # Render se milega
-        )
-    }
-
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'default': dj_database_url.config(
+#             default=env('DATABASE_URL')  # Render se milega
+#         )
 #     }
-# }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # if DEBUG:
@@ -173,5 +173,6 @@ META_WABA_ID = env('META_WABA_ID')
 META_VERIFY_TOKEN = env('META_VERIFY_TOKEN')
 
 MEDIA_ID = env('media_id')
+THUMBNAIL_ID = env('THUMBNAIL_ID')
 
 
