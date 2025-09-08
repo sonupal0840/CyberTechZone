@@ -109,7 +109,9 @@ def send_whatsapp(phone_number, media_id=None, name_param=None, template_type='i
             "messaging_product": "whatsapp",
             "to": phone_number,
             "type": "text",
-            "text": {"body": f"Hi {name_param}, ⚠️ Urgent Update : To buy the full course visit my instagram channel"}
+            "text": {"body": (
+                f"Hi {name_param},\n\n"
+                "⚠️ Urgent Update : To buy the full course visit my instagram channel")}
         }
 
     elif template_type == "followup2":
@@ -125,7 +127,7 @@ def send_whatsapp(phone_number, media_id=None, name_param=None, template_type='i
                 "image": {
                     "id": img_media_id,
                     "caption": (
-                        f"Hey {name_param},\n\n"
+                        f"Hey, {name_param},\n\n"
                                 "🎉🎉 Congratulations, Subsidy form is getting closed now, "
                                 "so I had filled it on your behalf.\n\n"
                                 "Act accordingly, if you receive a verification call."
@@ -173,12 +175,12 @@ def handle_first_time_message(phone_number, name="User"):
 # ----------------------------------------
 def schedule_followups(phone_number, name, media_id):
     try:
-        Timer(60, send_whatsapp, args=[phone_number], kwargs={
+        Timer(900, send_whatsapp, args=[phone_number], kwargs={
             "media_id": media_id, "name_param": name, "template_type": "followup1"
         }).start()
         logger.info(f"🕒 15-min follow-up scheduled for {phone_number}")
 
-        Timer(100, send_whatsapp, args=[phone_number], kwargs={
+        Timer(3600, send_whatsapp, args=[phone_number], kwargs={
             "media_id": media_id, "name_param": name, "template_type": "followup2"
         }).start()
         logger.info(f"🕒 1-hour follow-up scheduled for {phone_number}")
