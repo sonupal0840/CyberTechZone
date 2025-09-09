@@ -159,6 +159,7 @@ def send_whatsapp(phone_number, media_id=None, name_param=None, template_type='i
 # ----------------------------------------
 def handle_first_time_message(phone_number, name="User"):
     session, created = WhatsAppSession.objects.get_or_create(phone=phone_number)
+    session.name = name
 
     if created or now() - session.last_message_at > timedelta(hours=24):
         video_path = os.path.join(settings.BASE_DIR, 'static', 'media', 'whatsapp_ready.mp4')
