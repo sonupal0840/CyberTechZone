@@ -183,6 +183,12 @@ def whatsapp_sessions_view(request):
         'sessions': sessions,
         'selected': filter_option
     })
+    
+def delete_whatsapp_session(request, session_id):
+    session = get_object_or_404(WhatsAppSession, id=session_id)
+    if request.method == "POST":
+        session.delete()
+        return redirect('whatsapp_sessions')  # wahi view jisme tum list dikha rahe ho
 
 # ----------------------------------------
 # API: Bulk Text Message Trigger

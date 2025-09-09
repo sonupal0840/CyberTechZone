@@ -14,5 +14,6 @@ urlpatterns = [
     path('whatsapp-sessions/', views.whatsapp_sessions_view, name='whatsapp_sessions'),
     path('whatsapp-session/', views.whatsapp_session_page, name='whatsapp_sessions'),
     path('trigger-bulk/', views.trigger_bulk_whatsapp, name='trigger_bulk_whatsapp'),
+    path("whatsapp-sessions/delete/<int:session_id>/", views.delete_whatsapp_session, name="delete_whatsapp_session"),
 
 ]
