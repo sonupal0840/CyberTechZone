@@ -75,6 +75,20 @@ WSGI_APPLICATION = 'leadgenerationFunnel.wsgi.application'
 #         )
 #     }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',
+#         'NAME': 'OnboardingUsers',
+#         'USER': 'Sherlocksauto',
+#         'PASSWORD': 'Sherlocks@8072',
+#         'HOST': 'aspire.herosite.pro',
+#         'PORT': '1433',
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 18 for SQL Server',
+#             'extra_params': "CurrentSchema=DjangoAuth",  # Django tables apne schema me
+#         },
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
@@ -84,12 +98,11 @@ DATABASES = {
         'HOST': 'aspire.herosite.pro',
         'PORT': '1433',
         'OPTIONS': {
-            'driver': 'ODBC Driver 18 for SQL Server',
-            'extra_params': "CurrentSchema=DjangoAuth",  # Django tables apne schema me
+            'driver': 'ODBC Driver 17 for SQL Server',  # Windows pe 17 ya 18
+            'extra_params': 'CurrentSchema=DjangoAuth',  # agar schema chahiye
         },
     }
 }
-
 
 # DATABASES = {
 #     'default': {
