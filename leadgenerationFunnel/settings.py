@@ -69,11 +69,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'leadgenerationFunnel.wsgi.application'
 
 # Database
-# DATABASES = {
-#         'default': dj_database_url.config(
-#             default=env('DATABASE_URL')  # Render se milega
-#         )
-#     }
+DATABASES = {
+        'default': dj_database_url.config(
+            default=env('DATABASE_URL')  # Render se milega
+        )
+    }
 
 # DATABASES = {
 #     'default': {
@@ -89,8 +89,6 @@ WSGI_APPLICATION = 'leadgenerationFunnel.wsgi.application'
 #         },
 #     }
 # }
-
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'mssql',
@@ -105,22 +103,6 @@ WSGI_APPLICATION = 'leadgenerationFunnel.wsgi.application'
 #         },
 #     }
 # }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'mssql',           # mssql-django backend
-        'NAME': 'OnboardingUsers',
-        'USER': 'Sherlocksauto',
-        'PASSWORD': 'Sherlocks@8072',
-        'HOST': 'aspire.herosite.pro',
-        'PORT': '1433',
-        'OPTIONS': {
-            # ODBC driver nahi chahiye
-            # 'driver': '', 
-            'extra_params': 'CurrentSchema=DjangoAuth',  # optional
-        },
-    }
-}
 
 # DATABASES = {
 #     'default': {
