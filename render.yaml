@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: my-django-app
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: yourproject.settings
+      - key: SECRET_KEY
+        value: super-secret-key
+      - key: DATABASE_URL
+        value: mssql://Sherlocksauto:Sherlocks@8072@aspire.herosite.pro:1433/OnboardingUsers
