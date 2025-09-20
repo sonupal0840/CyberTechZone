@@ -3,11 +3,13 @@ services:
     name: my-django-app
     env: docker
     plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn leadgenerationFunnel.wsgi:application --bind 0.0.0.0:8000
     dockerfilePath: ./Dockerfile
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: yourproject.settings
+        value: leadgenerationFunnel.settings
       - key: SECRET_KEY
         value: super-secret-key
       - key: DATABASE_URL
-        value: mssql://Sherlocksauto:Sherlocks@8072@aspire.herosite.pro:1433/OnboardingUsers
+        value: mssql://Sherlocksauto:Sherlocks@8072@aspire.herosite.pro:1433/OnboardingUsers?driver=ODBC+Driver+18+for+SQL+Server
