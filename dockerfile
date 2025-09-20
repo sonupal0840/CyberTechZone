@@ -13,6 +13,13 @@ RUN curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/so
 # Install ODBC driver
 RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql18
 
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3-dev \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+
 # Install Python dependencies
 WORKDIR /app
 COPY requirements.txt .
